@@ -6,6 +6,12 @@ TakeLab turns a scene brief, camera move, lighting choice, and sound description
 
 Built for the [Open Source Higgsfield competition](https://comfy.org/open-source-higgsfield). TakeLab code is MIT licensed. The model weights have their own licenses and are not included.
 
+**[Watch the 65-second app demo](https://github.com/Bortlesboat/takelab/releases/download/v0.1.0/TakeLab-demo.mp4)** · [Captions](https://github.com/Bortlesboat/takelab/releases/download/v0.1.0/TakeLab-demo.srt)
+
+![TakeLab studio showing a completed paper-boat take and its direction controls](examples/studio.jpg)
+
+The demo uses actual browser captures and previously completed local renders, with a synthetic voice explaining the app and its implementation.
+
 ## Example takes
 
 [Locked camera](examples/paper-boat-locked/video.mp4) · [Slow push-in](examples/paper-boat-push/video.mp4)
