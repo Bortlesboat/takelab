@@ -1,0 +1,15 @@
+{
+  "title": "Paper boat \u2014 slow push-in",
+  "scene": "A photorealistic close-up of a tiny red paper sailboat floating on a calm garden pond. The boat gently drifts from left to right, making small ripples. Green foliage is reflected in the water.",
+  "camera": "push",
+  "lighting": "golden",
+  "sound": "Quiet water ripples and distant birdsong. No dialogue or music.",
+  "seed": 3061016,
+  "prompt": "A photorealistic close-up of a tiny red paper sailboat floating on a calm garden pond. The boat gently drifts from left to right, making small ripples. Green foliage is reflected in the water. One continuous five-second cinematic shot. The camera slowly dollies forward toward the subject. Soft golden-hour sunlight with warm highlights and natural shadows. Audio: Quiet water ripples and distant birdsong. No dialogue or music. No text, logos, watermarks, or cuts.",
+  "elapsed_seconds": 146.52,
+  "model": "LTX-2.5",
+  "width": 864,
+  "height": 480,
+  "frames": 121,
+  "fps": 24
+}
