@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe6">
+  <meta name="description" content="A local short-video studio. Direct a scene, compare your takes, and keep the exact workflow.">
+  <title>TakeLab — Your local video studio</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#scene">Skip to scene direction</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="TakeLab home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>TakeLab<span class="wordmark-period">.</span></a>
+    <p class="header-description">A little direction. A better take.</p>
+    <div class="connection" id="connection" data-state="checking"><span class="status-dot" aria-hidden="true"></span><span id="connection-label">Connecting to your studio</span></div>
+  </header>
+
+  <main class="studio">
+    <div class="intro">
+      <div><p class="eyebrow">The local video studio</p><h1>Direct the moment.</h1></div>
+      <p class="intro-note">Five seconds. Your scene, your sound.<br>Make a take. Find the one.</p>
+    </div>
+
+    <div class="workspace">
+      <section class="direction" aria-labelledby="direction-title">
+        <div class="section-heading"><h2 id="direction-title"><span class="section-number">01</span> Set the scene</h2><button class="text-button" id="load-starter" type="button">Load starter <span aria-hidden="true">↗</span></button></div>
+        <form id="take-form">
+          <div class="field"><label for="title">Take name</label><input id="title" name="title" type="text" maxlength="80" required placeholder="A name for this moment" autocomplete="off"></div>
+          <div class="field scene-field"><label for="scene">What do we see?</label><textarea id="scene" name="scene" rows="5" maxlength="1600" required placeholder="The setting, the subject, the small details. Describe what happens over five seconds." aria-describedby="scene-hint"></textarea><p class="field-hint" id="scene-hint">One clear moment works best. Be specific about movement.</p></div>
+
+          <fieldset class="field camera-field"><legend>Camera direction</legend><div class="camera-options">
+            <label class="camera-option"><input type="radio" name="camera" value="locked" checked><span><span class="camera-glyph" aria-hidden="true">▣</span>Locked off</span></label>
+            <label class="camera-option"><input type="radio" name="camera" value="push"><span><span class="camera-glyph" aria-hidden="true">↗</span>Slow push</span></label>
+            <label class="camera-option"><input type="radio" name="camera" value="orbit"><span><span class="camera-glyph" aria-hidden="true">↻</span>Orbit</span></label>
+            <label class="camera-option"><input type="radio" name="camera" value="track"><span><span class="camera-glyph" aria-hidden="true">↔</span>Tracking</span></label>
+          </div></fieldset>
+
+          <div class="field"><label for="lighting">Light &amp; atmosphere</label><select id="lighting" name="lighting"><option value="golden">Golden hour · warm &amp; soft</option><option value="studio">Studio · controlled &amp; crisp</option><option value="night">Night · pools of light</option><option value="overcast">Overcast · natural &amp; quiet</option></select></div>
+          <div class="field"><label for="sound">What do we hear? <span class="optional">Optional</span></label><textarea id="sound" name="sound" rows="2" maxlength="400" placeholder="Rain on glass, a distant train, a quiet room…"></textarea></div>
+
+          <details class="seed-details"><summary>Keep a little control <span class="summary-note">Random seed</span></summary><div class="seed-field"><div><label for="seed">Seed</label><input id="seed" name="seed" type="number" min="0" max="4294967295" step="1" required value="42" inputmode="numeric"></div><button class="secondary-button" type="button" id="randomize-seed">New seed</button></div><p class="field-hint">Reuse the seed to compare changes in your direction.</p></details>
+
+          <div class="generate-area"><button class="primary-button generate-button" id="generate" type="submit" disabled><span id="generate-label">Generate a take</span><span aria-hidden="true">↗</span></button><p class="generate-hint" id="generate-hint">Checking your local studio…</p></div>
+          <div class="form-message" id="form-message" role="status" aria-live="polite" hidden></div>
+          <div class="recovery" id="recovery" hidden><p>A response was not received. Your take may already be rendering. Check the same submission safely before starting another.</p><button class="secondary-button" type="button" id="check-submission">Check submission</button></div>
+        </form>
+      </section>
+
+      <div class="screening-desk">
+        <section class="screening" aria-labelledby="screening-title">
+          <div class="section-heading screening-heading"><h2 id="screening-title"><span class="section-number">02</span> Screening room</h2><div class="view-switch" role="group" aria-label="Screening view"><button type="button" id="single-view" aria-pressed="true">Single take</button><button type="button" id="compare-view" aria-pressed="false">Compare <span id="compare-count">0/2</span></button></div></div>
+          <div class="screen" id="screen"><div class="screen-empty"><span class="frame-corner top-left" aria-hidden="true"></span><span class="frame-corner top-right" aria-hidden="true"></span><span class="frame-corner bottom-left" aria-hidden="true"></span><span class="frame-corner bottom-right" aria-hidden="true"></span><span class="screen-overline">Your screening room</span><p class="screen-empty-title">Every good film<br>starts with a take.</p><p class="screen-empty-note">Describe your scene on the left.<br>Your first render will play here.</p><span class="screen-frame-label" aria-hidden="true">TAKELAB / 001</span></div></div>
+          <div class="compare-controls" id="compare-controls" hidden><button type="button" class="secondary-button" id="compare-play">Play both</button><button type="button" class="text-button" id="compare-rewind">Restart</button><label class="sr-only" for="compare-seek">Comparison playback position</label><input id="compare-seek" type="range" min="0" max="5" step="0.01" value="0"><output id="compare-time" for="compare-seek">0:00 / 0:05</output><label class="sr-only" for="compare-audio">Comparison audio</label><select id="compare-audio"><option value="a">Audio: take A</option><option value="b">Audio: take B</option><option value="muted">Audio: muted</option></select></div>
+          <p id="playback-message" class="playback-message" role="status" hidden></p>
+          <div class="screen-caption"><span id="screen-caption">A space for your next idea.</span><span class="format-label" id="format-label">LTX-2.5 · 864 × 480 · 24 fps</span></div>
+          <div class="take-details" id="take-details" hidden><div class="take-detail-heading"><div><p class="eyebrow" id="selected-take-label">Selected take</p><h3 id="selected-title"></h3></div><button type="button" class="secondary-button" id="reuse-selected">Reuse direction <span aria-hidden="true">↗</span></button></div><p id="selected-scene" class="selected-scene"></p><div class="take-meta" id="selected-meta"></div><p id="selected-error" class="take-error" hidden></p><div class="download-links" id="download-links"></div></div>
+        </section>
+
+        <section class="takes" aria-labelledby="takes-title"><div class="section-heading"><h2 id="takes-title"><span class="section-number">03</span> Your takes <span class="take-count" id="take-count">00</span></h2><button type="button" class="text-button" id="refresh-takes">Refresh <span aria-hidden="true">↻</span></button></div><p class="history-hint">Keep the experiments. Compare two finished takes to find your favorite.</p><p class="history-message" id="history-message" role="status">Loading your takes…</p><div id="take-list" class="take-list"></div></section>
+      </div>
+    </div>
+    <footer class="studio-footer"><span>Made on your machine. Yours to keep.</span><span>Video + audio + the exact workflow.</span></footer>
+  </main>
+  <div class="sr-only" role="status" aria-live="polite" id="announcement"></div>
+  <noscript><p class="noscript">Enable JavaScript to direct scenes and play your local takes.</p></noscript>
+</body>
+</html>
