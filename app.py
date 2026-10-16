@@ -27,7 +27,12 @@ def create_app(data_dir: Path | None = None, *, start_workers: bool = True) -> F
         origin = request.headers.get("Origin")
         if origin and origin != request.host_url.rstrip("/"):
             abort(403, "Use TakeLab from its own local page.")
-        if request.headers.get("Sec-Fetch-Site") == "cross-site":
+        landing_navigation = (
+            request.path == "/" and request.method in {"GET", "HEAD"}
+            and request.headers.get("Sec-Fetch-Mode") == "navigate"
+            and request.headers.get("Sec-Fetch-Dest") == "document"
+        )
+        if request.headers.get("Sec-Fetch-Site") == "cross-site" and not landing_navigation:
             abort(403, "Cross-site requests are not allowed.")
 
     @app.after_request

@@ -67,6 +67,20 @@ def test_cross_site_and_host_protection(app):
     assert client.get("/api/takes").status_code == 200
 
 
+def test_external_link_can_open_home_but_not_api_or_frames(app):
+    client = app.test_client()
+    navigation = {"Sec-Fetch-Site": "cross-site", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Dest": "document"}
+    for method in (client.get, client.head):
+        assert method("/", headers=navigation).status_code == 200
+        assert method("/api/takes", headers=navigation).status_code == 403
+    assert client.post("/", headers=navigation).status_code == 403
+    assert client.post("/api/takes", json=payload(), headers=navigation).status_code == 403
+    assert client.get("/", headers={**navigation, "Sec-Fetch-Dest": "iframe"}).status_code == 403
+    assert client.get("/", headers={**navigation, "Sec-Fetch-Mode": "cors"}).status_code == 403
+    assert client.get("/", headers={**navigation, "Origin": "https://evil.example"}).status_code == 403
+    assert client.get("/", headers={**navigation, "Host": "evil.example"}).status_code == 400
+
+
 def test_workflow_and_bundle_contain_only_take_files(app):
     client = app.test_client()
     take = client.post("/api/takes", json=payload()).json["take"]
